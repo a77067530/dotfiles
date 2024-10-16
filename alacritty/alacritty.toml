@@ -1,0 +1,517 @@
+# vim: set foldmarker={{,}} foldlevel=0 foldmethod=marker:
+#
+# NOTE:
+#   1. 查看折叠内容的方法:
+#      za: normal 模式下按 za, 表示当光标在关闭折叠上时打开之, 在打开折叠上时关闭之;
+#          在打开的折叠内部任意处按 za, 也会关闭折叠.
+#      zA: 是 za 的递归操作, 是针对嵌套折叠的场景.
+#
+#   2. Alacritty官方配置文件说明:
+#      https://alacritty.org/config-alacritty.html
+
+# 安装步骤 {{
+
+# For macOS:
+#
+#   1. brew install alacritty
+#
+#   2. 安装一些好看的字体
+#      git clone --depth=1 https://github.com/vimhack/nerd-fonts-patched.git
+#      cd nerd-fonts-patched && ./install.sh
+#
+#   3. 下载主题
+#       We use Alacritty's default Linux config directory as our storage location here.
+#
+#       mkdir -p ~/.config/alacritty/themes
+#       git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+# 
+#   4. 修改主题
+#      只需要修改import中"~/.config/alacritty/themes/themes/xxx.toml"即可
+
+# }}
+
+# general settings {{
+
+# GENERAL
+# This section documents the root level of the configuration file.
+
+# import = ["<string>",]
+#   Import additional configuration files.
+#   Imports are loaded in order, skipping all missing files, with the 
+#   importing file being loaded last. If a field is already present in 
+#   a previous import, it will be replaced.
+#   All imports must either be absolute paths starting with /, paths 
+#   relative to the user's home directory starting with ~/, or paths 
+#   relative from the current config file.
+#
+#   Example:
+#       import = [
+#       "~/.config/alacritty/base16-dark.toml",
+#       "~/.config/alacritty/keybindings.toml",
+#       "alacritty-theme/themes/gruvbox_dark.toml",
+#       ]
+import = [
+"~/.alacritty_private.toml",
+"~/.config/alacritty/themes/themes/dracula.toml",
+]
+
+# shell = "<string>" | { program = "<string>", args = ["<string>",] }
+#   You can set shell.program to the path of your favorite shell, e.g. /bin/zsh. 
+#   Entries in shell.args are passed as arguments to the shell.
+#
+#   Default:
+#       Linux/BSD/macOS: $SHELL or the user's login shell, if $SHELL is unset
+#       Windows: "powershell"
+#
+#   Example:
+#       [shell]
+#       program = "/bin/zsh"
+#       args = ["-l"]
+
+
+# working_directory = "<string>" | "None"
+#   Directory the shell is started in. When this is unset, 
+#   or "None", the working directory of the parent process will be used.
+#
+#   Default: "None"
+working_directory = "None"
+
+# live_config_reload = true | false
+#   Live config reload (changes require restart)
+#
+#   Default: true
+live_config_reload = true
+
+# ipc_socket = true | false # (unix only)
+#   Offer IPC using alacritty msg
+#
+#   Default: true
+ipc_socket = true
+
+# }}
+
+
+# env settings {{
+
+# All key-value pairs in the [env] section will be added as environment 
+# variables for any process spawned by Alacritty, including its shell. 
+# Some entries may override variables set by alacritty itself.
+[env]
+    # Example:
+    #   [env]
+    #   WINIT_X11_SCALE_FACTOR = "1.0"
+    TERM = "xterm-256color"
+    PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+# }}
+
+
+# window settings {{
+
+# This section documents the [window] table of the configuration file.
+[window]
+    # dimensions = { columns = <integer>, lines = <integer> }
+    #   Window dimensions (changes require restart).
+    #   Number of lines/columns (not pixels) in the terminal. 
+    #   Both lines and columns must be non-zero for this to take effect. 
+    #   The number of columns must be at least 2, while using a value of 0 for columns 
+    #   and lines will fall back to the window manager's recommended size
+    #
+    #   Default: { columns = 0, lines = 0 }
+    dimensions = { columns = 0, lines = 0 }
+
+    # position = "None" | { x = <integer>, y = <integer> } # (has no effect on Wayland)
+    #   Window startup position.
+    #   Specified in number of pixels.
+    #   If the position is "None", the window manager will handle placement.
+    #
+    #   Default: "None"
+    position = "None"# (has no effect on Wayland)
+
+    # padding = { x = <integer>, y = <integer> }
+    #   Blank space added around the window in pixels. 
+    #   This padding is scaled by DPI and the specified value is always 
+    #   added at both opposing sides.
+    #
+    #   Default: { x = 0, y = 0 }
+    padding = { x = 0, y = 0 }
+
+    # dynamic_padding = true | false
+    #   Spread additional padding evenly around the terminal content.
+    #
+    #   Default: false
+    dynamic_padding = false
+
+    # decorations = "Full" | "None" | "Transparent" | "Buttonless"
+    #   Window decorations.
+    #   Full
+    #       Borders and title bar.
+    #   None
+    #       Neither borders nor title bar.
+    #   Transparent (macOS only)
+    #       Title bar, transparent background and title bar buttons.
+    #   Buttonless (macOS only)
+    #       Title bar, transparent background and no title bar buttons.
+    #
+    #   Default: "Full"
+    decorations = "None"
+
+    # opacity = <float>
+    #   Background opacity as a floating point number from 0.0 to 1.0. 
+    #   The value 0.0 is completely transparent and 1.0 is opaque.
+    #
+    #   Default: 1.0
+    opacity = 0.9
+
+    # blur = true | false # (works on macOS/KDE Wayland)
+    #   Request compositor to blur content behind transparent windows.
+    #
+    #   Default: false
+    blur = false
+
+    # startup_mode = "Windowed" | "Maximized" | "Fullscreen" | "SimpleFullscreen"
+    #   Startup mode (changes require restart)
+    #   Windowed
+    #       Regular window.
+    #
+    #   Maximized
+    #       The window will be maximized on startup.
+    #
+    #   Fullscreen
+    #       The window will be fullscreened on startup.
+    #
+    #   SimpleFullscreen (macOS only)
+    #       Same as Fullscreen, but you can stack windows on top.
+    #
+    #   Default: "Windowed"
+    startup_mode = "Maximized"
+
+    # title = "<string>"
+    # Window title.
+    #
+    # Default: "Alacritty"
+    title = "Alacritty"
+
+    # dynamic_title = true | false
+    #   Allow terminal applications to change Alacritty's window title.
+    #
+    #   Default: true
+    dynamic_title = true
+
+    # class = { instance = "<string>", general = "<string>" } # (Linux/BSD only)
+    #
+    #   Window class.
+    #   On Wayland, general is used as app_id and instance is ignored.
+    #
+    #   Default: { instance = "Alacritty", general = "Alacritty" }
+    class = { instance = "Alacritty", general = "Alacritty" }
+
+    # decorations_theme_variant = "Dark" | "Light" | "None"
+    #   Override the variant of the System theme/GTK theme/Wayland client
+    #   side decorations. Set this to "None" to use the system's default theme variant.
+    #
+    #   Default: "None"
+    decorations_theme_variant = "None"
+
+    # resize_increments = true | false # (works on macOS/X11)
+    #   Prefer resizing window by discrete steps equal to cell dimensions.
+    #
+    #   Default: false
+    resize_increments = false
+
+    # option_as_alt = "OnlyLeft" | "OnlyRight" | "Both" | "None" # (macOS only)
+    #   Make Option key behave as Alt.
+    #
+    #   Default: "None"
+    option_as_alt = "None"
+
+# }}
+
+# scrolling settings {{
+
+# This section documents the [scrolling] table of the configuration file.
+[scrolling]
+    # history = <integer>
+    #   Maximum number of lines in the scrollback buffer.
+    #   Specifying 0 will disable scrolling.
+    #   Limited to 100000.
+    #
+    #   Default: 10000
+    history = 50000
+
+    # multiplier = <integer>
+    #   Number of line scrolled for every input scroll increment.
+    #
+    #   Default: 3
+    multiplier = 3
+
+# }}
+
+# font settings {{
+
+# This section documents the [font] table of the configuration file.
+[font]
+    # normal = { family = "<string>", style = "<string>" }
+    #
+    #   Default:
+    #       Linux/BSD: { family = "monospace", style = "Regular" }
+    #       Windows: { family = "Consolas", style = "Regular" }
+    #       macOS: { family = "Menlo", style = "Regular" }
+    normal = { family = "Hack Nerd Font", style = "Regular" }
+
+    # bold = { family = "<string>", style = "<string>" }
+    #   If the family is not specified, it will fall back to 
+    #   the value specified for the normal font.
+    #
+    #   Default: { style = "Bold" }
+    bold = { family = "Hack Nerd Font", style = "Bold" }
+
+    # italic = { family = "<string>", style = "<string>" }
+    #   If the family is not specified, it will fall back to 
+    #   the value specified for the normal font.
+    #
+    #   Default: { style = "Italic" }
+    italic = { family = "Hack Nerd Font", style = "Italic" }
+
+    # bold_italic = { family = "<string>", style = "<string>" }
+    #   If the family is not specified, it will fall back to 
+    #   the value specified for the normal font.
+    #
+    #   Default: { style = "Bold Italic" }
+    bold_italic = { family = "Hack Nerd Font", style = "Bold Italic" }
+
+    # size = <float>
+    #   Font size in points.
+    #
+    #   Default: 11.25
+    size = 12.0
+
+    # offset = { x = <integer>, y = <integer> }
+    #   Offset is the extra space around each character. y can be thought of 
+    #   as modifying the line spacing, and x as modifying the letter spacing.
+    #
+    #   Default: { x = 0, y = 0 }
+    offset = { x = 0, y = 0 }
+
+    # glyph_offset = { x = <integer>, y = <integer> }
+    #   Glyph offset determines the locations of the glyphs within their cells 
+    #   with the default being at the bottom. Increasing x moves the glyph to 
+    #   the right, increasing y moves the glyph upward.
+    glyph_offset = { x = 0, y = 0 }
+
+    # builtin_box_drawing = true | false
+    #   When true, Alacritty will use a custom built-in font for box drawing 
+    #   characters (Unicode points U+2500 - U+259F), legacy computing 
+    #   symbols (U+1FB00 - U+1FB3B), and powerline symbols (U+E0B0 - U+E0B3).
+    #
+    #   Default: true
+    builtin_box_drawing = true
+
+# }}
+
+# colors settings {{
+
+# This section documents the [colors] table of the configuration file.
+# Colors are specified using their hexadecimal values with a # prefix: #RRGGBB.
+[colors]
+    # primary
+    #   This section documents the [colors.primary] table of the configuration file.
+    #   foreground = "<string>"
+    #     Default: "#d8d8d8"
+    #   background = "<string>"
+    #       Default: "#181818"
+    #   dim_foreground = "<string>"
+    #       If this is not set, the color is automatically calculated based on the foreground color.
+    #       Default: "#828482"
+    #   bright_foreground = "<string>"
+    #       This color is only used when draw_bold_text_with_bright_colors is true.
+    #       If this is not set, the normal foreground will be used.
+    #       Default: "None"
+
+# }}
+
+
+# selection settings {{
+
+# This section documents the [selection] table of the configuration file.
+[selection]
+    # semantic_escape_chars = "<string>"
+    #   This string contains all characters that are used as separators 
+    #   for "semantic words" in Alacritty.
+    #
+    #   Default: ",│`|:\"' ()[]{}<>\t"
+
+
+    # save_to_clipboard = true | false
+    #   When set to true, selected text will be copied to the primary clipboard.
+    #
+    #   Default: false
+    save_to_clipboard = true
+
+# }}
+
+
+# cursor settings {{
+
+# This section documents the [cursor] table of the configuration file.
+[cursor]
+    # style = { <shape>, <blinking> }
+    #   shape = "Block" | "Underline" | "Beam"
+    #       Default: "Block"
+    #   blinking = "Never" | "Off" | "On" | "Always"
+    #       Never
+    #           Prevent the cursor from ever blinking
+    #       Off
+    #           Disable blinking by default
+    #       On
+    #           Enable blinking by default
+    #       Always
+    #           Force the cursor to always blink
+    #       Default: "Off"
+    style = { shape = "Block", blinking = "Always" }
+
+    # vi_mode_style = { <shape>, <blinking> } | "None"
+    # If the vi mode cursor style is "None" or not specified, 
+    # it will fall back to the active value of the normal cursor.
+    #
+    # Default: "None"
+    vi_mode_style = { shape = "Block", blinking = "Always" }
+
+    # blink_interval = <integer>
+    # Cursor blinking interval in milliseconds.
+    #
+    # Default: 750
+    blink_interval = 600
+
+    # blink_timeout = <integer>
+    # Time after which cursor stops blinking, in seconds.
+    # Specifying 0 will disable timeout for blinking.
+    #
+    # Default: 5
+    blink_timeout = 0
+
+    # unfocused_hollow = true | false
+    # When this is true, the cursor will be rendered as a hollow 
+    # box when the window is not focused.
+    #
+    # Default: true
+    unfocused_hollow = true
+
+    # thickness = <float>
+    # Thickness of the cursor relative to the cell width as 
+    # floating point number from 0.0 to 1.0.
+    #
+    # Default: 0.15
+    thickness = 0.1
+
+# }}
+
+# terminal settings {{
+
+# This section documents the [terminal] table of the configuration file.
+[terminal]
+    # osc52 = "Disabled" | "OnlyCopy" | "OnlyPaste" | "CopyPaste"
+    #   Controls the ability to write to the system clipboard with 
+    #   the OSC 52 escape sequence. While this escape sequence is useful to 
+    #   copy contents from the remote server, allowing any application to read 
+    #   from the clipboard can be easily abused while not providing 
+    #   significant benefits over explicitly pasting text.
+    #
+    #   Default: "OnlyCopy"
+    osc52 = "OnlyCopy"
+
+# }}
+
+# mouse settings {{
+
+# This section documents the [mouse] table of the configuration file.
+[mouse]
+    # hide_when_typing = true | false
+    #   When this is true, the cursor is temporarily hidden when typing.
+    #
+    #   Default: false
+    hide_when_typing = true
+
+    # bindings = [{ <mouse>, <mods>, <mode>, <command> | <chars> | <action> },]
+    #   See keyboard.bindings for full documentation on mods, mode, command, chars, and action.
+    #   When an application running within Alacritty captures the mouse, 
+    #   the `Shift` modifier can be used to suppress mouse reporting. 
+    #   If no action is found for the event, actions for the event 
+    #   without the `Shift` modifier are triggered instead.
+    # 
+    #   mouse = "Middle" | "Left" | "Right" | "Back" | "Forward" | <integer>
+    #      Mouse button which needs to be pressed to trigger this binding.
+    #
+    #   action = <keyboard.bindings.action> | "ExpandSelection"
+    #       ExpandSelection
+    #           Expand the selection to the current mouse cursor location.
+
+    # Example:
+    #   [mouse]
+    #       bindings = [
+    #   { mouse = "Right", mods = "Control", action = "Paste" },
+    #   ]
+
+# }}
+
+
+# hints setting {{
+
+# This section documents the [hints] table of the configuration file.
+[hints]
+    # TODO
+
+# }}
+
+
+# debug settings {{
+
+# This section documents the [debug] table of the configuration file.
+# Debug options are meant to help troubleshoot issues with Alacritty. 
+# These can change or be removed entirely without warning, so their stability shouldn't be relied upon.
+[debug]
+    # render_timer = true | false
+    #   Display the time it takes to draw each frame.
+    #
+    #   Default: false
+    render_timer = false
+
+    # persistent_logging = true | false
+    #   Keep the log file after quitting Alacritty.
+    #
+    # Default: false
+    persistent_logging = false
+
+    # log_level = "Off" | "Error" | "Warn" | "Info" | "Debug" | "Trace"
+    #   Default: "Warn"
+    #   To add extra libraries to logging ALACRITTY_EXTRA_LOG_TARGETS variable can be used.
+    #   Example:
+    #       ALACRITTY_EXTRA_LOG_TARGETS="winit;vte" alacritty -vvv
+    log_level = "Warn"
+
+    # renderer = "glsl3" | "gles2" | "gles2pure" | "None"
+    #   Force use of a specific renderer, "None" will use the highest available one.
+    #
+    #   Default: "None"
+    renderer = "None"
+
+    # print_events = true | false
+    #   Log all received window events.
+    #
+    #   Default: false
+    print_events = false
+
+    # highlight_damage = true | false
+    #   Highlight window damage information.
+    #
+    #   Default: false
+    highlight_damage = false
+
+    # prefer_egl = true | false
+    #   Use EGL as display API if the current platform allows it. 
+    #   Note that transparency may not work with EGL on Linux/BSD.
+    #
+    #   Default: false
+    prefer_egl = false
+
+# }}
