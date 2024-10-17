@@ -284,7 +284,7 @@ ipc_socket = true
     #   Font size in points.
     #
     #   Default: 11.25
-    size = 12.0
+    size = 14.0
 
     # offset = { x = <integer>, y = <integer> }
     #   Offset is the extra space around each character. y can be thought of 

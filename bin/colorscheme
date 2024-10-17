@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+# opacity
+#
+# Alacritty terminal background transparency adjustment.
+
+# 激活虚拟环境
+source ~/venv/bin/activate
+
+# 读取命令行参数
+new_opacity=$1
+
+# 检查参数是否存在
+if [ -z "$new_opacity" ]; then
+    echo "Usage: ft <new_opacity>"
+fi
+
+
+# 执行 opacity.py 脚本并传递参数
+python ~/.dotfiles/python/colorscheme.py "$new_opacity"
+
+# 退出虚拟环境
+deactivate
+
+exit 0

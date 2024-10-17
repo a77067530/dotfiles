@@ -1,0 +1,31 @@
+#!/usr/bin/env zsh
+# opacity
+#
+# Alacritty terminal background transparency adjustment.
+
+# 激活虚拟环境
+source ~/venv/bin/activate
+
+# 读取命令行参数
+new_opacity=$1
+
+# 检查参数是否存在
+if [ -z "$new_opacity" ]; then
+    echo "Usage: ft <new_opacity>"
+    deactivate
+    exit 1
+fi
+
+# 检查参数是否在有效范围内
+if [[ "$new_opacity" -lt 1 ]] || [[ "$new_opacity" -gt 100 ]]; then
+    echo "opacity must between 0 and 1"
+    exit 1
+fi
+
+# 执行 opacity.py 脚本并传递参数
+python ~/.dotfiles/python/font-size.py "$new_opacity"
+
+# 退出虚拟环境
+deactivate
+
+exit 0
