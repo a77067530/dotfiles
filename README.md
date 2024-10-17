@@ -18,6 +18,8 @@ pipx install tomlkit
 deactivate
 ```
 
+3. 安装tmux
+
 ## Installation
 ```shell
 git clone git@github.com:a77067530/dotfiles.git ~/.dotfiles
@@ -35,8 +37,16 @@ ln -sf ~/.dotfiles/zsh/.zshrc ~/.zshrc
 source ~/.zshrc
 ```
 
+### 3. tmux配置文件
+```shell
+ln -sf ~/.dotfiles/tmux/.tmux.conf ~/.tmux.conf
+```
+
 
 ## Update Version
+[2024.10.17]
+- 新增tmux配置文件
+
 [2024.10.17]
 - 新增修改文字大小
 - 新增修改Alacritty主题等功能
